@@ -20,7 +20,7 @@ function App() {
   const handleSubmit = () =>{
     if (!isChecked){
       if (status === "Plain Text → Compressed Text") {
-        axios.post('http://manuellaiv.pythonanywhere.com/encode/', { text: text })
+        axios.post('https://manuellaiv.pythonanywhere.com/encode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -33,7 +33,7 @@ function App() {
           });
       }
       else{
-        axios.post('http://manuellaiv.pythonanywhere.com/decode/', { text: text })
+        axios.post('https://manuellaiv.pythonanywhere.com/decode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -48,7 +48,7 @@ function App() {
     }
     else{
       if (status === "Plain Text → Compressed Text") {
-        axios.post('http://manuellaiv.pythonanywhere.com/lz78-encode/', { text: text })
+        axios.post('https://manuellaiv.pythonanywhere.com/lz78-encode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -61,7 +61,7 @@ function App() {
           });
       }
       else{
-        axios.post('http://manuellaiv.pythonanywhere.com/lz78-decode/', { text: text })
+        axios.post('https://manuellaiv.pythonanywhere.com/lz78-decode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -86,13 +86,13 @@ function App() {
   }
 
   const fetchTable = () => {
-    axios.get('https://manuellaiv.pythonanywhere.com/get-all-status/')
+    axios.post('https://manuellaiv.pythonanywhere.com/get-all-status/')
       .then(response => {
         const statusData = response.data.data;
-        axios.get('https://manuellaiv.pythonanywhere.com/get-all-inp/')
+        axios.post('https://manuellaiv.pythonanywhere.com/get-all-inp/')
           .then(response => {
             const inpData = response.data.data;
-            axios.get('https://manuellaiv.pythonanywhere.com/get-all-out/')
+            axios.post('https://manuellaiv.pythonanywhere.com/get-all-out/')
               .then(response => {
                 const outData = response.data.data;
                 const dataArray = statusData.map((status, index) => {
