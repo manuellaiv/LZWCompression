@@ -7,7 +7,7 @@ function App() {
   const [outputText, setOutputText] = useState('');
   const [status, setStatus] = useState("Plain Text → Compressed Text");
   const [isChecked, setIsChecked] = useState(false);
-  
+
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
   };
@@ -20,7 +20,7 @@ function App() {
   const handleSubmit = () =>{
     if (!isChecked){
       if (status === "Plain Text → Compressed Text") {
-        axios.post('http://localhost:8000/encode/', { text: text })
+        axios.post('http://manuellaiv.pythonanywhere.com/encode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -33,7 +33,7 @@ function App() {
           });
       }
       else{
-        axios.post('http://localhost:8000/decode/', { text: text })
+        axios.post('http://manuellaiv.pythonanywhere.com/decode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -48,7 +48,7 @@ function App() {
     }
     else{
       if (status === "Plain Text → Compressed Text") {
-        axios.post('http://localhost:8000/lz78-encode/', { text: text })
+        axios.post('http://manuellaiv.pythonanywhere.com/lz78-encode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -61,7 +61,7 @@ function App() {
           });
       }
       else{
-        axios.post('http://localhost:8000/lz78-decode/', { text: text })
+        axios.post('http://manuellaiv.pythonanywhere.com/lz78-decode/', { text: text })
           .then(response => {
             console.log(response.data)
             fetchTable()
@@ -86,13 +86,13 @@ function App() {
   }
 
   const fetchTable = () => {
-    axios.get('http://localhost:8000/get-all-status/')
+    axios.get('http://manuellaiv.pythonanywhere.com/get-all-status/')
       .then(response => {
         const statusData = response.data.data;
-        axios.get('http://localhost:8000/get-all-inp/')
+        axios.get('http://manuellaiv.pythonanywhere.com/get-all-inp/')
           .then(response => {
             const inpData = response.data.data;
-            axios.get('http://localhost:8000/get-all-out/')
+            axios.get('http://manuellaiv.pythonanywhere.com/get-all-out/')
               .then(response => {
                 const outData = response.data.data;
                 const dataArray = statusData.map((status, index) => {

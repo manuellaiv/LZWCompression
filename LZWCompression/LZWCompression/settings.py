@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(2*%7fj7_v3wtt*ni+wqvbvv^7#!x902lh=u+h9d0=!^dnxy9s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,7 +54,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://lzwcompression-manuellaiv.netlify.app/'
 ]
 
 ROOT_URLCONF = 'LZWCompression.urls'
