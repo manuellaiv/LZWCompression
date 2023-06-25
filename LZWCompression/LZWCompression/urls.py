@@ -22,4 +22,8 @@ urlpatterns = [
     path('', index, name='index'),
     path('encode/', views.encode_view, name='encode'),
     path('decode/', views.decode_view, name='decode'),
+    path('get-all/', views.get_all_view, name='get-all'),
+    path('get-all-inp/', views.get_all_inp_view, name='get-all-inp'),
+    path('get-all-out/', views.get_all_out_view, name='get-all-out'),
+    path('get-all-status/', views.get_all_status_view, name='get-all-status')
 ]

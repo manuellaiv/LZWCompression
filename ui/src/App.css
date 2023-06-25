@@ -93,6 +93,29 @@
   border: 0;
 }
 
+.table-container{
+  max-height: 300px;
+  max-width: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td{
+  max-width: 500px;
+  font-size: 15px;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+td{
+  overflow-wrap: break-word;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

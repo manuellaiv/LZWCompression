@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'
+    'corsheaders',
+    'LZWCompression',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +62,7 @@ ROOT_URLCONF = 'LZWCompression.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'LZWCompression/templates'],
+        'DIRS': [BASE_DIR / 'LZWCompression/LZWCompression/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
