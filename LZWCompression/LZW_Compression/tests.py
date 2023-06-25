@@ -1,98 +1,54 @@
-from django.test import TestCase
+def lz78_encode(plain):
+    i = 0
+    compressed = []
+    entry = ['']
+    while i < len(plain):
+        check = plain[i]
+        if not (check in compressed):
+            entry.append(check)
+            compressed.append('0')
+            compressed.append(check)
+            i = i + 1
+        else:
+            while(i < len(plain)) and (check in entry):
+                if (i == len(plain)-1 or not (check + plain[i+1] in entry)):
+                    break
+                i = i + 1
+                check = check + plain[i]
+            if i == len(plain)-1:
+                compressed.append(str(entry.index(check)))
+                compressed.append('xx')
+                i = i + 1
+            else:
+                compressed.append(str(entry.index(check)))
+                i = i + 1
+                check = check + plain[i]
+                compressed.append(plain[i])
+                entry.append(check)
+                i = i + 1
+    compressed_str = ""
+    for i in range(len(compressed)):
+        if i == len(compressed)-1:
+            compressed_str = compressed_str + compressed[i]
+        else:
+            compressed_str = compressed_str + compressed[i] + ","
+    return compressed_str
 
-# Create your tests here.
+def lz78_decode(compr):
+    compressed = compr.split(',')
+    plain = ""
+    entry = ['']
 
-# encoder
-import sys
-from sys import argv
-from struct import *
+    for i in range(0, len(compressed), 2):
+        idx = int(compressed[i])
+        el = (compressed[i+1])
 
-# taking the input file and the number of bits from command line
-# defining the maximum table size
-# opening the input file
-# reading the input file and storing the file data into data variable
-input_file, n = argv[1:]                
-maximum_table_size = pow(2,int(n))      
-file = open(input_file)                 
-data = file.read()                      
-
-# Building and initializing the dictionary.
-dictionary_size = 256                   
-dictionary = {chr(i): i for i in range(dictionary_size)}    
-string = ""             # String is null.
-compressed_data = []    # variable to store the compressed data.
-
-# iterating through the input symbols.
-# LZW Compression algorithm
-for symbol in data:                     
-    string_plus_symbol = string + symbol # get input symbol.
-    if string_plus_symbol in dictionary: 
-        string = string_plus_symbol
-    else:
-        compressed_data.append(dictionary[string])
-        if(len(dictionary) <= maximum_table_size):
-            dictionary[string_plus_symbol] = dictionary_size
-            dictionary_size += 1
-        string = symbol
-
-if string in dictionary:
-    compressed_data.append(dictionary[string])
-
-# storing the compressed string into a file (byte-wise).
-out = input_file.split(".")[0]
-output_file = open(out + ".lzw", "wb")
-for data in compressed_data:
-    output_file.write(pack('>H',int(data)))
-    
-output_file.close()
-file.close()
-
-# decoder
-import sys
-from sys import argv
-import struct
-from struct import *
-
-# taking the compressed file input and the number of bits from command line
-# defining the maximum table size
-# opening the compressed file
-# defining variables
-input_file, n = argv[1:]            
-maximum_table_size = pow(2,int(n))
-file = open(input_file, "rb")
-compressed_data = []
-next_code = 256
-decompressed_data = ""
-string = ""
-
-# Reading the compressed file.
-while True:
-    rec = file.read(2)
-    if len(rec) != 2:
-        break
-    (data, ) = unpack('>H', rec)
-    compressed_data.append(data)
-
-# Building and initializing the dictionary.
-dictionary_size = 256
-dictionary = dict([(x, chr(x)) for x in range(dictionary_size)])
-
-# iterating through the codes.
-# LZW Decompression algorithm
-for code in compressed_data:
-    if not (code in dictionary):
-        dictionary[code] = string + (string[0])
-    decompressed_data += dictionary[code]
-    if not(len(string) == 0):
-        dictionary[next_code] = string + (dictionary[code][0])
-        next_code += 1
-    string = dictionary[code]
-
-# storing the decompressed string into a file.
-out = input_file.split(".")[0]
-output_file = open(out + "_decoded.txt", "w")
-for data in decompressed_data:
-    output_file.write(data)
-    
-output_file.close()
-file.close()
+        if el == "xx":
+            plain = plain + entry[idx]
+        elif idx == 0:
+            plain = plain + el
+            entry.append(el)
+        else:
+            entry.append(entry[idx] + el)
+            plain = plain + entry[idx] + el
+    return plain

@@ -6,7 +6,11 @@ function App() {
   const [text, setText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [status, setStatus] = useState("Plain Text → Compressed Text");
-
+  const [isChecked, setIsChecked] = useState(false);
+  
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
   const [data, setData] = useState([]);
 
   const handleChange = (e) => {
@@ -14,31 +18,61 @@ function App() {
   }
 
   const handleSubmit = () =>{
-    if (status === "Plain Text → Compressed Text") {
-      axios.post('http://localhost:8000/encode/', { text: text })
-        .then(response => {
-          console.log(response.data)
-          fetchTable()
-          setOutputText(response.data.encoded_result);
-        })
-        .catch(error => {
-          fetchTable()
-          setOutputText('Can not be encoded.');
-          console.error(error);
-        });
+    if (!isChecked){
+      if (status === "Plain Text → Compressed Text") {
+        axios.post('http://localhost:8000/encode/', { text: text })
+          .then(response => {
+            console.log(response.data)
+            fetchTable()
+            setOutputText(response.data.encoded_result);
+          })
+          .catch(error => {
+            fetchTable()
+            setOutputText('Can not be encoded.');
+            console.error(error);
+          });
+      }
+      else{
+        axios.post('http://localhost:8000/decode/', { text: text })
+          .then(response => {
+            console.log(response.data)
+            fetchTable()
+            setOutputText(response.data.decoded_result);
+          })
+          .catch(error => {
+            console.error(error);
+            fetchTable()
+            setOutputText('Can not be decoded.');
+          });
+      }
     }
     else{
-      axios.post('http://localhost:8000/decode/', { text: text })
-        .then(response => {
-          console.log(response.data)
-          fetchTable()
-          setOutputText(response.data.decoded_result);
-        })
-        .catch(error => {
-          console.error(error);
-          fetchTable()
-          setOutputText('Can not be decoded.');
-        });
+      if (status === "Plain Text → Compressed Text") {
+        axios.post('http://localhost:8000/lz78-encode/', { text: text })
+          .then(response => {
+            console.log(response.data)
+            fetchTable()
+            setOutputText(response.data.lz78_encoded_result);
+          })
+          .catch(error => {
+            fetchTable()
+            setOutputText('Can not be encoded.');
+            console.error(error);
+          });
+      }
+      else{
+        axios.post('http://localhost:8000/lz78-decode/', { text: text })
+          .then(response => {
+            console.log(response.data)
+            fetchTable()
+            setOutputText(response.data.lz78_decoded_result);
+          })
+          .catch(error => {
+            console.error(error);
+            fetchTable()
+            setOutputText('Can not be decoded.');
+          });
+      }
     }
   }
 
@@ -67,6 +101,10 @@ function App() {
                       statusText = 'Plain Text → Compressed Text';
                     } else if (status === 1) {
                       statusText = 'Compressed Text → Plain Text';
+                    } else if (status === 2) {
+                      statusText = 'Plain Text → Compressed Text (LZ78)';
+                    }else if (status === 3) {
+                      statusText = 'Compressed Text → Plain Text (LZ78)';
                     }
                     return {
                       id: index + 1,
@@ -100,6 +138,15 @@ function App() {
       <header className="App-header">
         <h1 className="title">LZW Compression</h1>
         <p className="status">{status}</p>
+        <label className="status">
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+        />
+        LZ78 Compression
+      </label>
+      <p></p>
         <button class="reverse-button" onClick={statusChange}></button>
 
         <div className="input-grid">
