@@ -86,13 +86,13 @@ function App() {
   }
 
   const fetchTable = () => {
-    axios.get('http://localhost:8000/get-all-status/')
+    axios.post('http://localhost:8000/get-all-status/')
       .then(response => {
         const statusData = response.data.data;
-        axios.get('http://localhost:8000/get-all-inp/')
+        axios.post('http://localhost:8000/get-all-inp/')
           .then(response => {
             const inpData = response.data.data;
-            axios.get('http://localhost:8000/get-all-out/')
+            axios.post('http://localhost:8000/get-all-out/')
               .then(response => {
                 const outData = response.data.data;
                 const dataArray = statusData.map((status, index) => {

@@ -30,22 +30,22 @@ def lz78_decode_view(request):
     lz78_decoded_result = lz78_decode(compressed_data)
     return Response({'lz78_decoded_result': lz78_decoded_result})
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_all_view(request):
     arr = get_all()
     return Response({'data' : arr})
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_all_inp_view(request):
     arr = get_all_inp()
     return Response({'data' : arr})
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_all_out_view(request):
     arr = get_all_out()
     return Response({'data' : arr})
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_all_status_view(request):
     arr = get_all_status()
     return Response({'data' : arr})
