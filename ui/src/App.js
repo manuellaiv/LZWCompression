@@ -86,13 +86,13 @@ function App() {
   }
 
   const fetchTable = () => {
-    axios.get('http://manuellaiv.pythonanywhere.com/get-all-status/')
+    axios.get('https://manuellaiv.pythonanywhere.com/get-all-status/')
       .then(response => {
         const statusData = response.data.data;
-        axios.get('http://manuellaiv.pythonanywhere.com/get-all-inp/')
+        axios.get('https://manuellaiv.pythonanywhere.com/get-all-inp/')
           .then(response => {
             const inpData = response.data.data;
-            axios.get('http://manuellaiv.pythonanywhere.com/get-all-out/')
+            axios.get('https://manuellaiv.pythonanywhere.com/get-all-out/')
               .then(response => {
                 const outData = response.data.data;
                 const dataArray = statusData.map((status, index) => {
