@@ -55,7 +55,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'https://lzwcompression-manuellaiv.netlify.app/'
+    'https://lzwcompression-manuellaiv.netlify.app'
 ]
 
 ROOT_URLCONF = 'LZWCompression.urls'
